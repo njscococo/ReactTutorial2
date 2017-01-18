@@ -6,6 +6,7 @@ import axios from 'axios';
 import SearchBar from './components/SearchBar';
 import User from './components/User';
 import Repos from './components/Repos';
+import RepoRow from './components/RepoRow';
 
 class GithubSearch extends React.Component {
   constructor(props) {
@@ -37,7 +38,6 @@ class GithubSearch extends React.Component {
     //事件綁定2
     this.handleUserInput = this.handleUserInput.bind(this);
   }
-
 
   //call api
   getGithubUser(userName) {
@@ -95,7 +95,7 @@ class GithubSearch extends React.Component {
 
   handleBtnClick(e) {
     this.getGithubAll(this.state.inputUserName);
-    console.log(e.target);
+    //console.log(e.target);
   }
 
 
@@ -131,9 +131,11 @@ class GithubSearch extends React.Component {
         </fieldset>
 
         <br />
-        <User />
+        <User userInfo={this.state.userInfo}/>
         <br />
-        <Repos />
+        <Repos userRepos={this.state.userRepos}
+          filterRepoName={this.state.filterRepoName}
+          isBelow20={this.state.isBelow20} />
       </div>
     )
   }
