@@ -22,9 +22,9 @@ class SearchBar extends Component {
             //事件綁定2
             /*key point：what is `ref`? 
               ref是react中的一種特別的屬性，可以加到任意的component上。
-              ref是一個callback function,這個callback會在該component被mounted or unmounted後立刻執行
+              ref可以是一個callback function,這個callback會在該component被mounted or unmounted後立刻執行
               當ref被加在HTML element上時，ref callback會拿到DOM element當傳入參數。
-              所以可以
+              所以可以用ref來存DOM element的參考
             */      
             searchbar =
                 <div>
