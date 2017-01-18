@@ -12,10 +12,19 @@ class GithubSearch extends React.Component {
     super(props);
 
     //設定state：找出state
+    /*
+      如何找出合適的state？inputUserName需要做為1個state嗎？
+    */
     this.state = {
-      userName: '',
+      inputUserName: '',
       filterRepoName: '',
-      isBelow20: false
+      isBelow20: false,
+      userInfo: {
+        login: '',
+        id: 0,
+        avatar_url: ''
+      },
+      userRepos: []
     }
 
     this.handleBtnClick = this.handleBtnClick.bind(this);
@@ -33,29 +42,40 @@ class GithubSearch extends React.Component {
   //call api
   getGithubUser(userName) {
     let apiurl = 'https://api.github.com/users/' + userName;
+    //console.log('getGithubUser apiurl', apiurl);
     return axios.get(apiurl);
   }
 
   getGithubRepos(userName) {
     let apiurl = 'https://api.github.com/users/' + userName + "/repos";
+    //console.log('getGithubRepos apiurl', apiurl);
     return axios.get(apiurl);
   }
 
   getGithubAll(userName) {
     axios.all([this.getGithubUser(userName), this.getGithubRepos(userName)]).then(
-      axios.spread(function (acct, perms) {
-        console.log([acct.data, perms.data]);
-      })
+      (result) => {        
+        let [user, repos] = result;
+        //console.log(user.data, repos.data);
+        this.setState({
+          userInfo: {
+            login: user.data.login,
+            id: user.data.id,
+            avatar_url: user.data.avatar_url
+          },
+          userRepos: repos.data
+        });
+      }    
     );
   }
   //end: call api 
 
   //事件綁定1：可以每個state單獨綁事件
   handleUserNameChange(e) {
-    console.log(e.target.value);
-    // this.setState({
-    //   userName: e.target.value
-    // });
+    //console.log(this.state);
+    this.setState({
+      inputUserName: e.target.value
+    });
   }
 
   handleReposChange(e) {
@@ -74,15 +94,15 @@ class GithubSearch extends React.Component {
   //end：事件綁定1
 
   handleBtnClick(e) {
-    //this.getGithubAll(this.state.userName);
+    this.getGithubAll(this.state.inputUserName);
     console.log(e.target);
   }
-  
+
 
   //事件綁定2：也可以綁在一起，然後再用ref拿值
   handleUserInput(userName, filterRepoName, isBelow20) {
     this.setState({
-      userName: userName,
+      inputUserName: userName,
       filterRepoName: filterRepoName,
       isBelow20: isBelow20
     });
