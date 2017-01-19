@@ -90,14 +90,16 @@ class GithubSearch extends React.Component {
   handleReposChange(e) {
     console.log(e.target.value);
     this.setState({
-      filterRepoName: e.target.value
+      filterRepoName: e.target.value,
+      stateIndex: this.state.stateIndex+1
     });
   }
 
   handleCheckBoxChange(e) {
     console.log(e.target.checked);
     this.setState({
-      isBelow20: e.target.checked
+      isBelow20: e.target.checked,
+      stateIndex: this.state.stateIndex+1
     });
   }
   //end：事件綁定1
@@ -138,7 +140,9 @@ class GithubSearch extends React.Component {
             handleUserNameChange={this.handleUserNameChange}
             handleCheckBoxChange={this.handleCheckBoxChange}
             handleReposChange={this.handleReposChange} 
-            value={this.state.inputUserName}/>
+            inputUserName={this.state.inputUserName}
+            filterRepoName={this.state.filterRepoName} 
+            isBelow20={this.state.isBelow20}/>
         </fieldset>
 
         <br />

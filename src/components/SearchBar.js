@@ -52,13 +52,13 @@ class SearchBar extends Component {
             //console.log('event binding 2:',this.props);
         } else {
             //事件綁定1
-            console.log('事件綁定1:', this.props.value);
+            //console.log('事件綁定1:', this.props.value);
             searchbar = <div>
-                輸入使用者姓名:<input type="text" onChange={this.props.handleUserNameChange} value={this.props.value}/>
+                輸入使用者姓名:<input type="text" onChange={this.props.handleUserNameChange} value={this.props.inputUserName}/>
                 <button onClick={this.props.handleBtnClick} >查詢</button><br/>
                 輸入專案名稱:
-                <input type="text" onChange={this.props.handleReposChange}/><br/>
-                <input type="checkbox" onChange={this.props.handleCheckBoxChange}/>只顯示fork次數大於20的專案
+                <input type="text" onChange={this.props.handleReposChange} value={this.props.filterRepoName} /><br/>
+                <input type="checkbox" onChange={this.props.handleCheckBoxChange} checked={this.props.isBelow20} />只顯示fork次數大於20的專案
             </div>
             //console.log('event binding 1:', this.props);
         }
