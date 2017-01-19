@@ -9,7 +9,7 @@ import Repos from './components/Repos';
 import RepoRow from './components/RepoRow';
 import PlayBack from './components/PlayBack';
 
-import myState from './store/stateStore';
+import myState from './store/StateStore';
 import githubApi from './utils/GithubApi';
 
 class GithubSearch extends React.Component {
@@ -47,38 +47,6 @@ class GithubSearch extends React.Component {
     this.handleUserInput = this.handleUserInput.bind(this);
   }
 
-  //call api
-  // getGithubUser(userName) {
-  //   let apiurl = 'https://api.github.com/users/' + userName;
-  //   //console.log('getGithubUser apiurl', apiurl);
-  //   return axios.get(apiurl);
-  // }
-
-  // getGithubRepos(userName) {
-  //   let apiurl = 'https://api.github.com/users/' + userName + "/repos";
-  //   //console.log('getGithubRepos apiurl', apiurl);
-  //   return axios.get(apiurl);
-  // }
-
-  // getGithubAll(userName) {
-  //   axios.all([this.getGithubUser(userName), this.getGithubRepos(userName)]).then(
-  //     (result) => {        
-  //       let [user, repos] = result;
-  //       //console.log(user.data, repos.data);
-  //       this.setState({
-  //         userInfo: {
-  //           login: user.data.login,
-  //           id: user.data.id,
-  //           avatar_url: user.data.avatar_url
-  //         },
-  //         userRepos: repos.data,
-  //         stateIndex: this.state.stateIndex+1
-  //       });
-  //     }    
-  //   );
-  // }
-  //end: call api 
-
   //事件綁定1：可以每個state單獨綁事件
   handleUserNameChange(e) {
     //console.log(this.state);
@@ -89,7 +57,7 @@ class GithubSearch extends React.Component {
   }
 
   handleReposChange(e) {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     this.setState({
       filterRepoName: e.target.value,
       stateIndex: this.state.stateIndex + 1
@@ -97,7 +65,7 @@ class GithubSearch extends React.Component {
   }
 
   handleCheckBoxChange(e) {
-    console.log(e.target.checked);
+    //console.log(e.target.checked);
     this.setState({
       isBelow20: e.target.checked,
       stateIndex: this.state.stateIndex + 1
@@ -142,8 +110,6 @@ class GithubSearch extends React.Component {
   }
 
   render() {
-    //console.log('render:', this.state);
-    //this.stateIdx++;
     myState.store.set(this.state.stateIndex, this.state);
     return (
       <div>
