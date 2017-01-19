@@ -7,6 +7,9 @@ import SearchBar from './components/SearchBar';
 import User from './components/User';
 import Repos from './components/Repos';
 import RepoRow from './components/RepoRow';
+import PlayBack from './components/PlayBack';
+
+import myState from './store/stateStore';
 
 class GithubSearch extends React.Component {
   constructor(props) {
@@ -25,8 +28,12 @@ class GithubSearch extends React.Component {
         id: 0,
         avatar_url: ''
       },
-      userRepos: []
+      userRepos: [],
+      stateIndex: 0 
     }
+    
+    //倒帶模式
+    myState.store.set(this.state.stateIndex, this.state);
 
     this.handleBtnClick = this.handleBtnClick.bind(this);
 
@@ -63,7 +70,8 @@ class GithubSearch extends React.Component {
             id: user.data.id,
             avatar_url: user.data.avatar_url
           },
-          userRepos: repos.data
+          userRepos: repos.data,
+          stateIndex: this.state.stateIndex+1
         });
       }    
     );
@@ -74,7 +82,8 @@ class GithubSearch extends React.Component {
   handleUserNameChange(e) {
     //console.log(this.state);
     this.setState({
-      inputUserName: e.target.value
+      inputUserName: e.target.value,
+      stateIndex: this.state.stateIndex+1
     });
   }
 
@@ -98,7 +107,6 @@ class GithubSearch extends React.Component {
     //console.log(e.target);
   }
 
-
   //事件綁定2：也可以綁在一起，然後再用ref拿值
   handleUserInput(userName, filterRepoName, isBelow20) {
     this.setState({
@@ -112,15 +120,25 @@ class GithubSearch extends React.Component {
   }
   //end：事件綁定2
 
+  //倒帶模式
+  handleBackBtn(e){
+    this.setState(myState.store.get(+e.target.value));    
+  }
+
   render() {
+    //console.log('render:', this.state);
+    //this.stateIdx++;
+    myState.store.set(this.state.stateIndex, this.state);
     return (
       <div>
+        <PlayBack stateIndex = {this.state.stateIndex} handleBackBtn={this.handleBackBtn.bind(this)}/>
         <fieldset>
           <legend>事件綁定1</legend>
           <SearchBar handleBtnClick={this.handleBtnClick}
             handleUserNameChange={this.handleUserNameChange}
             handleCheckBoxChange={this.handleCheckBoxChange}
-            handleReposChange={this.handleReposChange} />
+            handleReposChange={this.handleReposChange} 
+            value={this.state.inputUserName}/>
         </fieldset>
 
         <br />

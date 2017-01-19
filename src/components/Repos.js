@@ -15,16 +15,16 @@ export default class Repos extends Component {
         //console.log(this.props.filterRepoName.length);
         if (this.props.isBelow20) {
             allRows = repos.filter((curEle) => {
-                return curEle.forks_count >= 20 && curEle.name.indexOf(this.props.filterRepoName) >=0;
+                return curEle.forks_count >= 20 && curEle.name.indexOf(this.props.filterRepoName) >= 0;
             }).map((curEle, idx) => {
                 return <RepoRow repoInfo={{
                     repoName: curEle.name,
                     forksCount: curEle.forks_count
                 }} key={curEle.id} />
             });
-        }else{
+        } else {
             allRows = repos.filter((curEle) => {
-                return curEle.name.indexOf(this.props.filterRepoName) >=0 ;
+                return curEle.name.indexOf(this.props.filterRepoName) >= 0;
             }).map((curEle, idx) => {
                 return <RepoRow repoInfo={{
                     repoName: curEle.name,
@@ -32,13 +32,11 @@ export default class Repos extends Component {
                 }} key={curEle.id} />
             });
         }
-        
-
-        //console.log('allRows:',allRows);
+       
         return (
-            <fieldset>
+            <fieldset>                   
                 <legend>專案資訊</legend>
-                <table>
+                <table style={{textAlign:'center'}}>
                     <thead>
                         <tr>
                             <th>Project_Name</th>
