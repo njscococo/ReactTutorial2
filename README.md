@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-# githuber_react_practice
-=======
+
 # ReactTutorial2
->>>>>>> a76d2e846f4eba2523bb990031069af34d62153c
+基於此範例做擴充和練習https://facebook.github.io/react/docs/thinking-in-react.html
