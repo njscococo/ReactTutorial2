@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom';
 
 import RepoRow from './RepoRow';
 
+import { observer } from 'mobx-react';
+import { GithubInfoStore, UserInputStore } from '../store/GithubStore';
 
+@observer
 export default class Repos extends Component {
 
     render() {
@@ -13,9 +16,9 @@ export default class Repos extends Component {
         */
         let allRows = [];
         //console.log(this.props.filterRepoName.length);
-        if (this.props.isBelow20) {
+        if (UserInputStore.isBelow20) {
             allRows = repos.filter((curEle) => {
-                return curEle.forks_count >= 20 && curEle.name.indexOf(this.props.filterRepoName) >= 0;
+                return curEle.forks_count >= 20 && curEle.name.indexOf(UserInputStore.filterRepoName) >= 0;
             }).map((curEle, idx) => {
                 return <RepoRow repoInfo={{
                     repoName: curEle.name,
@@ -24,7 +27,7 @@ export default class Repos extends Component {
             });
         } else {
             allRows = repos.filter((curEle) => {
-                return curEle.name.indexOf(this.props.filterRepoName) >= 0;
+                return curEle.name.indexOf(UserInputStore.filterRepoName) >= 0;
             }).map((curEle, idx) => {
                 return <RepoRow repoInfo={{
                     repoName: curEle.name,

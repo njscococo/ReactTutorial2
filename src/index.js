@@ -10,9 +10,16 @@ import RepoRow from './components/RepoRow';
 import PlayBack from './components/PlayBack';
 
 import myState from './store/StateStore';
+//加入mobx 管理狀態
+import { observer } from 'mobx-react';
+import { observable, computed, action } from 'mobx';
+import { GithubInfoStore, UserInputStore } from './store/GithubStore';
+
+//github api
 import githubApi from './utils/GithubApi';
 
-class GithubSearch extends React.Component {
+@observer
+class GithubSearch extends Component {
   constructor(props) {
     super(props);
 
@@ -48,45 +55,64 @@ class GithubSearch extends React.Component {
   }
 
   //事件綁定1：可以每個state單獨綁事件
+  @action
   handleUserNameChange(e) {
-    //console.log(this.state);
-    this.setState({
-      inputUserName: e.target.value,
-      stateIndex: this.state.stateIndex + 1
-    });
-  }
-
-  handleReposChange(e) {
     //console.log(e.target.value);
-    this.setState({
-      filterRepoName: e.target.value,
-      stateIndex: this.state.stateIndex + 1
-    });
+    // this.setState({
+    //   inputUserName: e.target.value,
+    //   stateIndex: this.state.stateIndex + 1
+    // });
+    UserInputStore.inputUserName = e.target.value;
+    //console.log(GithubInfoStore, UserInputStore);
   }
 
+  @action
+  handleReposChange(e) {
+    console.log(e.target.value);
+    // this.setState({
+    //   filterRepoName: e.target.value,
+    //   stateIndex: this.state.stateIndex + 1
+    // });
+    UserInputStore.filterRepoName = e.target.value;
+  }
+
+  @action
   handleCheckBoxChange(e) {
-    //console.log(e.target.checked);
-    this.setState({
-      isBelow20: e.target.checked,
-      stateIndex: this.state.stateIndex + 1
-    });
+    console.log(e.target.checked);
+    // this.setState({
+    //   isBelow20: e.target.checked,
+    //   stateIndex: this.state.stateIndex + 1
+    // });
+    UserInputStore.isBelow20 = e.target.checked;
+    UserInputStore.stateIndex = UserInputStore.stateIndex + 1;
+
   }
   //end：事件綁定1
 
+  @action
   handleBtnClick(e) {
-    githubApi.getGithubAll(this.state.inputUserName).then(
+    githubApi.getGithubAll(UserInputStore.inputUserName).then(
       (result) => {
         let [user, repos] = result;
         //console.log(user.data, repos.data);
-        this.setState({
-          userInfo: {
-            login: user.data.login,
-            id: user.data.id,
-            avatar_url: user.data.avatar_url
-          },
-          userRepos: repos.data,
-          stateIndex: this.state.stateIndex + 1
-        });
+        /*
+          用mobx，再也沒有setState
+         */
+        // this.setState({
+        //   userInfo: {
+        //     login: user.data.login,
+        //     id: user.data.id,
+        //     avatar_url: user.data.avatar_url
+        //   },
+        //   userRepos: repos.data,
+        //   stateIndex: this.state.stateIndex + 1
+        // });
+        GithubInfoStore.userInfo = {
+          login: user.data.login,
+          id: user.data.id,
+          avatar_url: user.data.avatar_url
+        };
+        GithubInfoStore.userRepos = repos.data;
       }
     );
   }
@@ -133,10 +159,15 @@ class GithubSearch extends React.Component {
         </fieldset>
 
         <br />
-        <User userInfo={this.state.userInfo} />
+        <User userInfo={GithubInfoStore.userInfo} />
         <br />
+
         <Repos userRepos={this.state.userRepos}
           filterRepoName={this.state.filterRepoName}
+          isBelow20={this.state.isBelow20} />
+
+        <Repos userRepos={GithubInfoStore.userRepos}
+          filterRepoName={UserInputStore.filterRepoName}
           isBelow20={this.state.isBelow20} />
       </div>
     )

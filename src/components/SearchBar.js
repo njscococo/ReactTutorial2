@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
+import { observer } from 'mobx-react';
+import { GithubInfoStore, UserInputStore } from '../store/GithubStore';
+
+
+@observer
 class SearchBar extends Component {
     constructor(props) {
         super(props);
@@ -53,14 +58,21 @@ class SearchBar extends Component {
         } else {
             //事件綁定1
             //console.log('事件綁定1:', this.props.value);
+            // searchbar = <div>
+            //     輸入使用者姓名:<input type="text" onChange={this.props.handleUserNameChange} value={this.props.inputUserName}/>
+            //     <button onClick={this.props.handleBtnClick} >查詢</button><br/>
+            //     輸入專案名稱:
+            //     <input type="text" onChange={this.props.handleReposChange} value={this.props.filterRepoName} /><br/>
+            //     <input type="checkbox" onChange={this.props.handleCheckBoxChange} checked={this.props.isBelow20} />只顯示fork次數大於20的專案
+            // </div>
             searchbar = <div>
-                輸入使用者姓名:<input type="text" onChange={this.props.handleUserNameChange} value={this.props.inputUserName}/>
+                輸入使用者姓名:<input type="text" onChange={this.props.handleUserNameChange} value={ UserInputStore.inputUserName } />
                 <button onClick={this.props.handleBtnClick} >查詢</button><br/>
                 輸入專案名稱:
-                <input type="text" onChange={this.props.handleReposChange} value={this.props.filterRepoName} /><br/>
-                <input type="checkbox" onChange={this.props.handleCheckBoxChange} checked={this.props.isBelow20} />只顯示fork次數大於20的專案
+                <input type="text" onChange={this.props.handleReposChange} value={UserInputStore.filterRepoName} /><br/>
+                <input type="checkbox" onChange={this.props.handleCheckBoxChange} checked={UserInputStore.isBelow20} />只顯示fork次數大於20的專案
             </div>
-            //console.log('event binding 1:', this.props);
+            
         }
         return (searchbar);
     }
