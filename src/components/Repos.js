@@ -11,6 +11,10 @@ export default class Repos extends Component {
 
     render() {
         let repos = this.props.userRepos;
+        if (repos.length<= 0){
+            return null;
+
+        }
         /*當iterate產生多個相同的元件時，如果沒有加上key屬性，那麼react會針對所有相同的元件做改變，而不是針對實際上改變的那個
           所以這情況下要加上key屬性，並給唯一值  
         */

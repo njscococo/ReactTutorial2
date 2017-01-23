@@ -17,13 +17,13 @@ class SearchBar extends Component {
     //事件綁定2
     handleChange() {
         //在render(){}裡，我們在html element中加了ref attribute，並且指定了名稱，所以這邊就可以直接拿來用
-        console.log(this.userName.value, this.filterRepoName.value, this.isBelow20.checked);
-        this.props.handleUserInput(this.userName.value, this.filterRepoName.value, this.isBelow20.checked);
+        //console.log(this.userName.value, this.filterRepoName.value, this.isBelow20.checked);
+        //this.props.handleUserInput(this.userName.value, this.filterRepoName.value, this.isBelow20.checked);
     }
 
     render() {
         let searchbar;
-        if (this.props.handleUserInput) {
+        if (this.props.onChange) {
             //事件綁定2
             /*key point：what is `ref`?
               ref是react中的一種特別的屬性，可以加到任意的component上。
@@ -31,11 +31,39 @@ class SearchBar extends Component {
               當ref被加在HTML element上時，ref callback會拿到DOM element當傳入參數。
               所以可以用ref來存DOM element的參考
             */
+            // searchbar = <div>
+            //     輸入使用者姓名:
+            //     <input
+            //         type="text"
+            //         onChange={this.handleChange}
+            //         ref={(input) => {
+            //         this.userName = input
+            //     }}/>
+            //     <button onClick={this.props.handleBtnClick}>查詢</button><br/>
+            //     輸入專案名稱:
+            //     <input
+            //         type="text"
+            //         onChange={this.handleChange}
+            //         ref={(input) => {
+            //         this.filterRepoName = input
+            //     }}/><br/>
+            //     <input
+            //         type="checkbox"
+            //         onChange={this.handleChange}
+            //         ref={(input) => {
+            //         this.isBelow20 = input
+            //     }}/>只顯示fork次數大於20的專案
+            // </div>
+
+            //mobx
+            console.log('event2 mobx');
             searchbar = <div>
                 輸入使用者姓名:
                 <input
                     type="text"
-                    onChange={this.handleChange}
+                    name= "inputUserName"
+                    //onChange={this.handleChange}
+                    onChange={this.props.onChange}
                     ref={(input) => {
                     this.userName = input
                 }}/>
@@ -43,13 +71,17 @@ class SearchBar extends Component {
                 輸入專案名稱:
                 <input
                     type="text"
-                    onChange={this.handleChange}
+                    name= "filterRepoName"
+                    //onChange={this.handleChange}
+                    onChange={this.props.onChange}
                     ref={(input) => {
                     this.filterRepoName = input
                 }}/><br/>
                 <input
                     type="checkbox"
-                    onChange={this.handleChange}
+                    name= "isBelow20"
+                    //onChange={this.handleChange}
+                    onChange={this.props.onChange}
                     ref={(input) => {
                     this.isBelow20 = input
                 }}/>只顯示fork次數大於20的專案
@@ -65,6 +97,8 @@ class SearchBar extends Component {
             //     <input type="text" onChange={this.props.handleReposChange} value={this.props.filterRepoName} /><br/>
             //     <input type="checkbox" onChange={this.props.handleCheckBoxChange} checked={this.props.isBelow20} />只顯示fork次數大於20的專案
             // </div>
+
+            //mobx
             searchbar = <div>
                 輸入使用者姓名:<input type="text" onChange={this.props.handleUserNameChange} value={ UserInputStore.inputUserName } />
                 <button onClick={this.props.handleBtnClick} >查詢</button><br/>

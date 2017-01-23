@@ -9,7 +9,9 @@ export default class User extends Component{
             height: 120,
             width: 120
         }
-        return (
+
+        if(userInfo.avatar_url){
+            return (
             <fieldset>
                 <legend>基本資料</legend>                
                 <img src={userInfo.avatar_url} style={imgStyle}  />
@@ -20,5 +22,9 @@ export default class User extends Component{
             </fieldset>
 
         )
+        }else{
+            return null;
+        }
+       
     }
 }

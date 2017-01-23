@@ -118,17 +118,29 @@ class GithubSearch extends Component {
   }
 
   //事件綁定2：也可以綁在一起，然後再用ref拿值
-  handleUserInput(userName, filterRepoName, isBelow20) {
-    this.setState({
-      inputUserName: userName,
-      filterRepoName: filterRepoName,
-      isBelow20: isBelow20
-    });
-    console.log('userName:', userName);
-    console.log('filterRepoName:', filterRepoName);
-    console.log('isBelow20:', isBelow20);
-  }
+  // handleUserInput(userName, filterRepoName, isBelow20) {
+  //   this.setState({
+  //     inputUserName: userName,
+  //     filterRepoName: filterRepoName,
+  //     isBelow20: isBelow20
+  //   });
+  //   console.log('userName:', userName);
+  //   console.log('filterRepoName:', filterRepoName);
+  //   console.log('isBelow20:', isBelow20);
+  // }
   //end：事件綁定2
+
+  //mobx事件綁定2
+  @action
+  handleUserInput(key, value){
+    key.type === "checkbox" ? UserInputStore[key.name] = (key.checked) : UserInputStore[key.name] = value;
+  }
+
+  onChange(e){
+    //console.log(e.target);
+    this.handleUserInput(e.target, e.target.value);
+  }
+  //end:mobx事件綁定2
 
   //倒帶模式
   handleBackBtn(e) {
@@ -154,8 +166,9 @@ class GithubSearch extends Component {
         <br />
         <fieldset>
           <legend>事件綁定2</legend>
-          <SearchBar handleUserInput={this.handleUserInput}
-            handleBtnClick={this.handleBtnClick} />
+          <SearchBar 
+            handleBtnClick={this.handleBtnClick} 
+            onChange= {this.onChange.bind(this)}/>
         </fieldset>
 
         <br />
